@@ -1,4 +1,4 @@
-package me.itswagpvp.synccommands.utils;
+package me.itswagpvp.synccommands.spigot.utils;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

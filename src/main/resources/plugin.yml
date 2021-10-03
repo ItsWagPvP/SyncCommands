@@ -1,6 +1,6 @@
 name: SyncCommands
 version: '${project.version}'
-main: me.itswagpvp.synccommands.SyncCommands
+main: me.itswagpvp.synccommands.spigot.SyncCommands
 api-version: 1.13
 authors: [ ItsWagPvP ]
 description: A plugin that sync commands over servers with MySQL

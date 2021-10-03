@@ -1,6 +1,6 @@
-package me.itswagpvp.synccommands.utils;
+package me.itswagpvp.synccommands.spigot.utils;
 
-import me.itswagpvp.synccommands.SyncCommands;
+import me.itswagpvp.synccommands.spigot.SyncCommands;
 import org.bukkit.Bukkit;
 
 import java.sql.Connection;

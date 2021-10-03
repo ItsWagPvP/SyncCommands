@@ -1,10 +1,10 @@
-package me.itswagpvp.synccommands;
+package me.itswagpvp.synccommands.spigot;
 
-import me.itswagpvp.synccommands.commands.Sync;
-import me.itswagpvp.synccommands.utils.Checker;
-import me.itswagpvp.synccommands.utils.MySQL;
-import me.itswagpvp.synccommands.utils.Register;
-import me.itswagpvp.synccommands.utils.TabCompleterUtils;
+import me.itswagpvp.synccommands.spigot.commands.Sync;
+import me.itswagpvp.synccommands.spigot.utils.Checker;
+import me.itswagpvp.synccommands.spigot.utils.MySQL;
+import me.itswagpvp.synccommands.spigot.utils.Register;
+import me.itswagpvp.synccommands.spigot.utils.TabCompleterUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 

@@ -1,0 +1,7 @@
+name: SyncCommands
+main: me.itswagpvp.synccommands.bungeecord.SyncCommandsBungee
+author: _ItsWagPvP
+version: ${project.version}
+commands:
+  sync:
+    aliases: [synccommands]

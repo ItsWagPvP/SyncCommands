@@ -1,7 +1,7 @@
-package me.itswagpvp.synccommands.commands;
+package me.itswagpvp.synccommands.spigot.commands;
 
-import me.itswagpvp.synccommands.SyncCommands;
-import me.itswagpvp.synccommands.utils.MySQL;
+import me.itswagpvp.synccommands.spigot.SyncCommands;
+import me.itswagpvp.synccommands.spigot.utils.MySQL;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -25,7 +25,11 @@ public class Sync implements CommandExecutor {
 
         String serverName = args[0];
 
-        String execute = StringUtils.join(args, " ").replaceAll(serverName, "");
+        String execute = "";
+
+        for (int i = 1; i < args.length; i++) {
+            execute = execute + " " + args[i];
+        }
 
         sender.sendMessage("§aSending command...");
         sender.sendMessage("§aServer: §7" + serverName);

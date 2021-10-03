@@ -1,6 +1,6 @@
-package me.itswagpvp.synccommands.utils;
+package me.itswagpvp.synccommands.spigot.utils;
 
-import me.itswagpvp.synccommands.SyncCommands;
+import me.itswagpvp.synccommands.spigot.SyncCommands;
 import org.bukkit.Bukkit;
 
 import java.sql.PreparedStatement;
@@ -28,7 +28,6 @@ public class Checker {
                     Bukkit.getScheduler().runTaskLater(plugin, () -> plugin.getServer().dispatchCommand(Bukkit.getConsoleSender(), command), 0);
                     deleteRow(id);
                 }
-
 
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
