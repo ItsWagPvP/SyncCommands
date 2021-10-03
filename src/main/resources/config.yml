@@ -1,0 +1,16 @@
+# SyncCommandsPlus made by _ItsWagPvP <3
+
+# Do not edit this
+Version: ${project.version}
+
+# Put here the name of this server
+# CASE SENSITIVE
+ServerName: "Default"
+
+# Database login
+MySQL:
+  IP: localhost
+  Port: 3306
+  User: root
+  Password: qwerty
+  AutoReconnect: true
