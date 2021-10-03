@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.ItsWagPvP</groupId>
-    <artifactId>SyncCommandsPlus</artifactId>
+    <artifactId>SyncCommands</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
 
-    <name>SyncCommandsPlus</name>
+    <name>SyncCommands</name>
 
     <description>A plugin that sync commands over servers with MySQL</description>
     <properties>

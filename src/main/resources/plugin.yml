@@ -1,7 +1,12 @@
-name: SyncCommandsPlus
+name: SyncCommands
 version: '${project.version}'
-main: me.itswagpvp.synccommandsplus.SyncCommandsPlus
+main: me.itswagpvp.synccommands.SyncCommands
 api-version: 1.13
 authors: [ ItsWagPvP ]
 description: A plugin that sync commands over servers with MySQL
 website: https://dev.itswagpvp.eu
+commands:
+  sync:
+    aliases:
+      - commandsync
+    usage: /<command>
