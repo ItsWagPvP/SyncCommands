@@ -2,11 +2,15 @@ name: SyncCommands
 version: '${project.version}'
 main: me.itswagpvp.synccommands.spigot.SyncCommands
 api-version: 1.13
-authors: [ ItsWagPvP ]
+authors: [ _ItsWagPvP ]
 description: A plugin that sync commands over servers with MySQL
 website: https://dev.itswagpvp.eu
 commands:
   sync:
     aliases:
       - commandsync
+    usage: /<command>
+  synccommands:
+    aliases:
+      - sc
     usage: /<command>

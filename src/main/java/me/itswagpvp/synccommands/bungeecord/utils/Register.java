@@ -2,6 +2,7 @@ package me.itswagpvp.synccommands.bungeecord.utils;
 
 import me.itswagpvp.synccommands.bungeecord.SyncCommandsBungee;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,6 +14,7 @@ import java.util.concurrent.ExecutionException;
 public class Register {
 
     private static SyncCommandsBungee plugin;
+
     public Register(SyncCommandsBungee plugin) {
         Register.plugin = plugin;
     }
@@ -22,8 +24,10 @@ public class Register {
 
             String sql = "CREATE TABLE SyncServers (serverName VARCHAR(256) NOT NULL)";
 
-            try {
-                PreparedStatement stmt = new MySQL(plugin).getConnection().prepareStatement(sql);
+            try (
+                    Connection connection = plugin.getHikari().getConnection()
+                    ){
+                PreparedStatement stmt = connection.prepareStatement(sql);
                 stmt.execute();
             } catch (SQLException e) {
 
@@ -42,8 +46,10 @@ public class Register {
             String sql = "REPLACE INTO SyncServers (serverName) VALUES(?)";
             PreparedStatement stmt;
 
-            try {
-                stmt = new MySQL(plugin).getConnection().prepareStatement(sql);
+            try (
+                    Connection connection = plugin.getHikari().getConnection()
+                    ) {
+                stmt = connection.prepareStatement(sql);
 
                 stmt.setString(1, plugin.getConfig().getString("ServerName"));
                 stmt.executeUpdate();
@@ -57,21 +63,20 @@ public class Register {
     }
 
     public void unregisterServer(String serverName) {
-        Thread addCommand = new Thread(() -> {
 
-            plugin.sendConsoleMessage("&f-> &7Unregistered server name: &c" + serverName);
-            PreparedStatement stmt;
-            try {
-                String sql = "DELETE FROM `SyncServers` WHERE `serverName` = '" + serverName + "'";
-                stmt = new MySQL(plugin).getConnection().prepareStatement(sql);
-                stmt.execute();
+        plugin.sendConsoleMessage("&f-> &7Unregistered server name: &c" + serverName);
+        PreparedStatement stmt;
+        try (
+                Connection connection = plugin.getHikari().getConnection()
+                ){
+            String sql = "DELETE FROM `SyncServers` WHERE `serverName` = '" + serverName + "'";
+            stmt = connection.prepareStatement(sql);
 
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
+            stmt.execute();
 
-        addCommand.start();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -80,12 +85,13 @@ public class Register {
 
             List<String> list = new ArrayList<>();
             try (
-                    PreparedStatement ps = new MySQL(plugin).getConnection().prepareStatement("SELECT serverName FROM SyncServers");
+                    Connection connection = plugin.getHikari().getConnection();
+                    PreparedStatement ps = connection.prepareStatement("SELECT serverName FROM SyncServers");
                     ResultSet rs = ps.executeQuery()
             ) {
 
                 while (rs.next()) {
-                    if (rs.getString("serverName") == plugin.getServerName()) {
+                    if (rs.getString("serverName").equals(plugin.getServerName())) {
                         continue;
                     }
 

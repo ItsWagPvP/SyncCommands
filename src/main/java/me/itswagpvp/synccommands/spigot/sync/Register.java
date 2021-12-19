@@ -1,8 +1,9 @@
-package me.itswagpvp.synccommands.spigot.utils;
+package me.itswagpvp.synccommands.spigot.sync;
 
 import me.itswagpvp.synccommands.spigot.SyncCommands;
 import org.bukkit.Bukkit;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,14 +18,14 @@ public class Register {
 
     public void createTable() {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            String sql = "CREATE TABLE SyncServers (serverName VARCHAR(256) NOT NULL)";
+            String sql = "CREATE TABLE IF NOT EXISTS SyncServers (serverName VARCHAR(256) NOT NULL)";
 
             try {
-                PreparedStatement stmt = new MySQL().getConnection().prepareStatement(sql);
+                PreparedStatement stmt = plugin.getHikari().getConnection().prepareStatement(sql);
                 stmt.execute();
             } catch (SQLException e) {
 
-                if (!e.getMessage().contains("already exists")) e.printStackTrace();
+                if (!e.getMessage().contains("already exists") || !e.getMessage().contains("doesn't exist")) e.printStackTrace();
 
             }
         });
@@ -36,7 +37,7 @@ public class Register {
             PreparedStatement stmt;
 
             try {
-                stmt = new MySQL().getConnection().prepareStatement(sql);
+                stmt = plugin.getHikari().getConnection().prepareStatement(sql);
 
                 stmt.setString(1, plugin.getConfig().getString("ServerName"));
                 stmt.executeUpdate();
@@ -49,9 +50,11 @@ public class Register {
     public void unregisterServer(String serverName) {
         plugin.sendConsoleMessage("&f-> &7Unregistered server name: &c" + serverName);
         PreparedStatement stmt;
-        try {
+        try (
+                Connection connection = plugin.getHikari().getConnection()
+                ){
             String sql = "DELETE FROM `SyncServers` WHERE `serverName` = '" + serverName + "'";
-            stmt = new MySQL().getConnection().prepareStatement(sql);
+            stmt = connection.prepareStatement(sql);
             stmt.execute();
 
         } catch (SQLException e) {
@@ -64,12 +67,13 @@ public class Register {
 
             List<String> list = new ArrayList<>();
             try (
-                    PreparedStatement ps = new MySQL().getConnection().prepareStatement("SELECT serverName FROM SyncServers");
+                    Connection connection = plugin.getHikari().getConnection();
+                    PreparedStatement ps = connection.prepareStatement("SELECT serverName FROM SyncServers");
                     ResultSet rs = ps.executeQuery()
             ) {
 
                 while (rs.next()) {
-                    if (rs.getString("serverName") == plugin.getServerName()) {
+                    if (rs.getString("serverName").equals(plugin.getServerName())) {
                         continue;
                     }
 

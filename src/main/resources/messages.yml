@@ -9,49 +9,11 @@
 #                                                                                                             #
 ###############################################################################################################
 
-# SyncCommands made by _ItsWagPvP <3
+# Messages for SyncCommands
 
-# Do not edit this
-Version: ${project.version}
+# Do not change this
+Version: 1.0
 
-# Do you want to use debug mode? this will send more console messages
-Debug-Mode: false
-
-# Do you want to receive notification of the plugin outdated?
-Updater: true
-
-# This will create log.txt file where plugin will store console debug messages
-# Only for spigot
-Log: true
-
-# Put here the name of this server
-# CASE SENSITIVE
-ServerName: "Default"
-
-# The plugin will check every x seconds for new commands
-# This time is expressed in seconds (Must be > 1)
-Refresh-Rate: 3
-
-# Database login
-MySQL:
-  # Host ip (You can even use localhost)
-  IP: "" #localhost
-  # The port of the mysql server (Default = 3306)
-  Port: "" #3306
-  # Database name
-  Database: "" #SyncCommands
-  # User to connect with
-  User: "" #root
-  # Password of the user
-  Password: "" #qwerty
-  # Do you want to auto reconnect to the database if the connection closes?
-  AutoReconnect: true
-
-# Only for spigot
-Sounds:
-  Success:
-    Enabled: true
-    Sound: "ENTITY_PLAYER_LEVELUP"
-  Error:
-    Enabled: true
-    Sound: "ENTITY_VILLAGER_NO"
+Messages:
+  NoPerms: "&cYou don't have enough permissions"
+  InvalidCommand: "&cInvalid usage! Use /sync <server> <command>"

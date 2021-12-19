@@ -4,4 +4,6 @@ author: _ItsWagPvP
 version: ${project.version}
 commands:
   sync:
-    aliases: [synccommands]
+    usage: /<command>
+  synccommands:
+    usage: /<command>
