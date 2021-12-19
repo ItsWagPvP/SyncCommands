@@ -8,7 +8,7 @@ import net.md_5.bungee.api.plugin.Command;
 public class Main extends Command {
     private static SyncCommandsBungee plugin;
     public Main(SyncCommandsBungee plugin) {
-        super("synccommands");
+        super("bsynccommands");
         Main.plugin = plugin;
     }
 
@@ -33,7 +33,7 @@ public class Main extends Command {
                 }
 
                 sender.sendMessage("§a§lSyncCommands §7discord link:");
-                sender.sendMessage("§9https://discord.io/wagsupport");
+                sender.sendMessage("§9https://discord.itswagpvp.eu");
                 return;
             }
 
@@ -49,7 +49,7 @@ public class Main extends Command {
                 plugin.sendConsoleMessage("&f-> &7Version of the plugin: &e" + plugin.getDescription().getVersion());
                 plugin.sendConsoleMessage("&f-> &7Version of the config: &e" + plugin.getConfig().get("Version"));
                 plugin.sendConsoleMessage("");
-                plugin.sendConsoleMessage("&f-> &7Numbers of server connected: " + new Register(plugin).getServerList().size());
+                plugin.sendConsoleMessage("&f-> &7Servers connected: " + new Register(plugin).getServerList().size());
                 plugin.sendConsoleMessage("&8+------------------------------------+");
                 return;
             }

@@ -70,8 +70,6 @@ public class SyncCommandsBungee extends Plugin {
         sendConsoleMessage("&f-> &7Registered server name: &c" + getServerName());
         sendConsoleMessage("&f");
 
-        sendConsoleMessage("");
-
         loadMetrics();
 
         sendConsoleMessage("&f-> &7Plugin loaded in " + (System.currentTimeMillis() - before) + "ms!");
@@ -84,7 +82,7 @@ public class SyncCommandsBungee extends Plugin {
         if (updaterEnabled) {
 
             if (new Updater().isPluginOutdated(plugin.getDescription().getVersion())) {
-                sendConsoleMessage("&7[SyncCommands] &7Your plugin is outdated!");
+                sendConsoleMessage("&7[SyncCommands] &7The plugin is outdated!");
 
                 sendConsoleMessage(("&7[SyncCommands] &7You have &cv%this% &7in front of &av%latest%&7!")
                         .replace("%this%", plugin.getDescription().getVersion())

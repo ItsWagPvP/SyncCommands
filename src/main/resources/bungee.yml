@@ -3,7 +3,7 @@ main: me.itswagpvp.synccommands.bungeecord.SyncCommandsBungee
 author: _ItsWagPvP
 version: ${project.version}
 commands:
-  sync:
+  bsync:
     usage: /<command>
-  synccommands:
+  bsynccommands:
     usage: /<command>

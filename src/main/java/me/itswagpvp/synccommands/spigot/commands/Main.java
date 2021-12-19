@@ -3,7 +3,6 @@ package me.itswagpvp.synccommands.spigot.commands;
 import me.itswagpvp.synccommands.spigot.SyncCommands;
 import me.itswagpvp.synccommands.spigot.log.FileLogger;
 import me.itswagpvp.synccommands.spigot.sync.Register;
-import me.itswagpvp.synccommands.spigot.utils.MessagesUtils;
 import me.itswagpvp.synccommands.spigot.utils.Sounds;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -38,7 +37,7 @@ public class Main implements CommandExecutor {
                 }
 
                 sender.sendMessage("§a§lSyncCommands §7discord link:");
-                sender.sendMessage("§9https://discord.io/wagsupport");
+                sender.sendMessage("§9https://discord.itswagpvp.eu");
                 new Sounds().playSuccessSound(sender);
                 return true;
             }
@@ -57,7 +56,7 @@ public class Main implements CommandExecutor {
                 plugin.sendConsoleMessage("&f-> &7config.yml version: &e" + plugin.getConfig().getString("Version"));
                 plugin.sendConsoleMessage("&f-> &7messages.yml version: &e" + plugin.getMessagesVersion());
                 plugin.sendConsoleMessage("");
-                plugin.sendConsoleMessage("&f-> &7Numbers of server connected: " + new Register().getServerList().size());
+                plugin.sendConsoleMessage("&f-> &7Servers connected: " + new Register().getServerList().size());
                 plugin.sendConsoleMessage("&8+------------------------------------+");
                 return true;
             }
@@ -84,8 +83,8 @@ public class Main implements CommandExecutor {
                 long before = System.currentTimeMillis();
                 plugin.saveDefaultConfig();
                 new FileLogger().createLogConfig();
-                new MessagesUtils().createMessagesConfig();
-                new MessagesUtils().reloadMessagesConfig();
+                plugin.createMessagesConfig();
+                plugin.loadMessagesConfig();
 
                 sender.sendMessage("§aPlugin reloaded in " + (System.currentTimeMillis() - before) + " ms!");
                 new Sounds().playSuccessSound(sender);

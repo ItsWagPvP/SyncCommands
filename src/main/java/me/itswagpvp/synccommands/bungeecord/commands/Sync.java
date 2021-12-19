@@ -10,7 +10,7 @@ public class Sync extends Command {
 
     private static SyncCommandsBungee plugin;
     public Sync(SyncCommandsBungee plugin) {
-        super("sync");
+        super("bsync");
         Sync.plugin = plugin;
     }
 

@@ -12,7 +12,7 @@
 # Messages for SyncCommands
 
 # Do not change this
-Version: 1.0
+Version: ${project.version}
 
 Messages:
   NoPerms: "&cYou don't have enough permissions"

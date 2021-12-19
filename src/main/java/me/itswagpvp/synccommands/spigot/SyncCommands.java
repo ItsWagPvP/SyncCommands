@@ -5,14 +5,20 @@ import me.itswagpvp.synccommands.general.metrics.SpigotMetrics;
 import me.itswagpvp.synccommands.general.updater.Updater;
 import me.itswagpvp.synccommands.spigot.commands.Main;
 import me.itswagpvp.synccommands.spigot.commands.Sync;
+import me.itswagpvp.synccommands.spigot.listener.PlayerUpdateNotify;
 import me.itswagpvp.synccommands.spigot.log.FileLogger;
 import me.itswagpvp.synccommands.spigot.sync.MySQL;
-import me.itswagpvp.synccommands.spigot.utils.MessagesUtils;
 import me.itswagpvp.synccommands.spigot.sync.Checker;
 import me.itswagpvp.synccommands.spigot.sync.Register;
 import me.itswagpvp.synccommands.spigot.utils.TabCompleterUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
+import java.io.IOException;
 
 public final class SyncCommands extends JavaPlugin {
 
@@ -22,6 +28,9 @@ public final class SyncCommands extends JavaPlugin {
 
     public boolean debugMode = false;
     public boolean updaterEnabled = false;
+
+    private FileConfiguration messagesConfig;
+    private File messagesFile;
 
     @Override
     public void onEnable() {
@@ -35,7 +44,7 @@ public final class SyncCommands extends JavaPlugin {
         sendConsoleMessage("");
 
         saveDefaultConfig();
-        new MessagesUtils().createMessagesConfig();
+        createMessagesConfig();
 
         if (getConfig().getBoolean("Debug-Mode", false)) debugMode = true;
         if (getConfig().getBoolean("Log", true)) new FileLogger().createLogConfig();
@@ -65,13 +74,13 @@ public final class SyncCommands extends JavaPlugin {
         if (new Register().getServerList().size() != 0) {
             sendConsoleMessage("&f-> &aSuccessfully connected to:");
             for (String server : new Register().getServerList()) sendConsoleMessage("&7   - " + server);
-            sendConsoleMessage("&f");
+        } else {
+            sendConsoleMessage("&f-> &aNo servers connected...");
         }
 
         sendConsoleMessage("");
 
         loadMetrics();
-        sendConsoleMessage("");
 
         if (!plugin.getDescription().getVersion().equals(plugin.getConfig().getString("Version"))) {
             sendConsoleMessage("&f-> &eYour config.yml is outdated!");
@@ -89,13 +98,16 @@ public final class SyncCommands extends JavaPlugin {
         if (updaterEnabled) {
 
             if (new Updater().isPluginOutdated(plugin.getDescription().getVersion())) {
-                sendConsoleMessage("&7[SyncCommands] &7Your plugin is outdated!");
+                sendConsoleMessage("&7[SyncCommands] &7The plugin is outdated!");
 
                 sendConsoleMessage(("&7[SyncCommands] &7You have &cv%this% &7in front of &av%latest%&7!")
                         .replace("%this%", plugin.getDescription().getVersion())
                         .replace("%latest%", "" + new Updater().getNewerVersion()));
             }
         }
+
+        Bukkit.getPluginManager().registerEvents(new PlayerUpdateNotify(), plugin);
+
     }
 
     @Override
@@ -179,18 +191,45 @@ public final class SyncCommands extends JavaPlugin {
     }
 
     public String getMessage(String path) {
-        if (new MessagesUtils().getMessagesConfig().get(path) == null) return path;
-        return new MessagesUtils().getMessagesConfig().getString(path).replaceAll("&", "§");
+        if (getMessagesConfig().get(path) == null) return path;
+        return getMessagesConfig().getString(path).replaceAll("&", "§");
     }
 
     public String getMessagesVersion() {
-        new MessagesUtils().reloadMessagesConfig();
-        if (new MessagesUtils().getMessagesConfig().get("Version") == null) return "Error";
-        return new MessagesUtils().getMessagesConfig().getString("Version");
+        if (getMessagesConfig().get("Version") == null) return "Error";
+        return getMessagesConfig().getString("Version");
     }
 
     public HikariDataSource getHikari() {
         return hikari;
+    }
+
+    public FileConfiguration getMessagesConfig() {
+        return this.messagesConfig;
+    }
+
+    public void createMessagesConfig() {
+        messagesFile = new File(getDataFolder(), "messages.yml");
+        if (!messagesFile.exists()) {
+            messagesFile.getParentFile().mkdirs();
+            saveResource("messages.yml", false);
+        }
+
+        messagesConfig= new YamlConfiguration();
+        try {
+            messagesConfig.load(messagesFile);
+        } catch (IOException | InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadMessagesConfig() {
+        messagesConfig= new YamlConfiguration();
+        try {
+            messagesConfig.load(messagesFile);
+        } catch (IOException | InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
     }
 
 }
