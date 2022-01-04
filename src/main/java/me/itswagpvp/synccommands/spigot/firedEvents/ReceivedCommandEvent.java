@@ -35,6 +35,10 @@ public class ReceivedCommandEvent extends Event implements Cancellable {
         return HANDLERS_LIST;
     }
 
+    public static HandlerList getHandlerList() {
+        return HANDLERS_LIST;
+    }
+
     public int getCommandId() {
         return this.commandId;
     }
