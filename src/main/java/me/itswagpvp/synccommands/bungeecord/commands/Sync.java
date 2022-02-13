@@ -26,12 +26,27 @@ public class Sync extends Command {
             return;
         }
 
-        String serverName = args[0];
+        sender.sendMessage("§aSending command...");
         String execute = "";
+        for (int i = 1; i < args.length; i++) execute = execute + " " + args[i];
+        if (args[0].equals("*")) {
+            for (String onlineServer : new me.itswagpvp.synccommands.bungeecord.utils.Register(plugin).getServerList()) {
+                SendCommandEvent event = new SendCommandEvent(sender, execute.replaceFirst(" ", ""), onlineServer);
+                plugin.getProxy().getPluginManager().callEvent(event);
+                new MySQL(plugin).addCommand(onlineServer, execute.replaceFirst(" ", ""), plugin.getServerName());
+            }
+
+            if (plugin.debugMode) {
+                sender.sendMessage("§aServer: §7ALL");
+                sender.sendMessage("§aCommand: §7" + execute.replaceFirst(" ", ""));
+            }
+
+            return;
+        }
+
+        String serverName = args[0];
 
         for (int i = 1; i < args.length; i++) execute = execute + " " + args[i];
-
-        sender.sendMessage("§aSending command...");
 
         SendCommandEvent event = new SendCommandEvent(sender, execute.replaceFirst(" ", ""), serverName);
         plugin.getProxy().getPluginManager().callEvent(event);
@@ -40,7 +55,6 @@ public class Sync extends Command {
             sender.sendMessage("§aServer: §7" + serverName);
             sender.sendMessage("§aCommand: §7" + execute.replaceFirst(" ", ""));
         }
-
 
         new MySQL(plugin).addCommand(serverName, execute.replaceFirst(" ", ""), plugin.getServerName());
     }

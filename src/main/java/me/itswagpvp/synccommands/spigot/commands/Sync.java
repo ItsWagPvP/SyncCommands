@@ -3,6 +3,7 @@ package me.itswagpvp.synccommands.spigot.commands;
 import me.itswagpvp.synccommands.spigot.SyncCommands;
 import me.itswagpvp.synccommands.spigot.firedEvents.SendCommandEvent;
 import me.itswagpvp.synccommands.spigot.sync.MySQL;
+import me.itswagpvp.synccommands.spigot.sync.Register;
 import me.itswagpvp.synccommands.spigot.utils.Sounds;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -24,16 +25,30 @@ public class Sync implements CommandExecutor {
             return true;
         }
 
-        String serverName = args[0];
-
         String execute = "";
+        sender.sendMessage("§aSending command...");
 
         for (int i = 1; i < args.length; i++) execute = execute + " " + args[i];
+        if (args[0].equals("*")) {
+            for (String onlineServer : new Register().getServerList()) {
+                SendCommandEvent event = new SendCommandEvent(sender, execute.replaceFirst(" ", ""), onlineServer);
+                plugin.getServer().getPluginManager().callEvent(event);
+
+                new MySQL().addCommand(onlineServer, execute.replaceFirst(" ", ""), plugin.getServerName());
+
+            }
+
+            new Sounds().playSuccessSound(sender);
+            if (plugin.debugMode) {
+                sender.sendMessage("§aServer: §7ALL");
+                sender.sendMessage("§aCommand: §7" + execute.replaceFirst(" ", ""));
+            }
+        }
+
+        String serverName = args[0];
 
         SendCommandEvent event = new SendCommandEvent(sender, execute.replaceFirst(" ", ""), serverName);
         plugin.getServer().getPluginManager().callEvent(event);
-
-        sender.sendMessage("§aSending command...");
 
         if (plugin.debugMode) {
             sender.sendMessage("§aServer: §7" + serverName);
